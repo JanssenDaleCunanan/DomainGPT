@@ -1,0 +1,212 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title></title>
+        <link href="{% static 'search_engine/css/styles.css' %}" rel="stylesheet" />
+        <link rel="stylesheet" href="{% static 'search_engine/css/styles.css' %}" />
+        <link rel="icon" type="image/x-icon" href="assets/img/favicon.png" />
+        <script data-search-pseudo-elements defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js" crossorigin="anonymous"></script>
+    </head>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZRQYLCKPV9"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-ZRQYLCKPV9');
+    </script>
+
+    <body>
+        <div id="layoutDefault">
+            <div id="layoutDefault_content">
+                <main>
+                    <!-- Navbar-->
+                    <nav class="navbar navbar-marketing navbar-expand-lg bg-transparent navbar-dark fixed-top">
+                        <div class="container px-5">
+                            <a class="navbar-brand black" href="#"><h2 class="black fw-bolder">DomainsGPT</h2></a>
+                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><i data-feather="menu"></i></button>
+                            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                                <ul class="navbar-nav ms-auto me-lg-5">
+                                    <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Domain Search</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Domain Assistant <div class="badge badge-marketing rounded-pill bg-secondary-soft text-secondary">Beta</div></a></li>
+                                </ul>
+
+                            </div>
+                        </div>
+                    </nav>
+
+
+                    <header class="page-header-ui page-header-ui-egreen">
+                        <div class="page-header-ui-content py-10">
+                            <div class="container px-3">
+                                <div class="row gx-7 align-items-center">
+                                    <div class="col-lg-6" data-aos="fade-up">
+
+
+                                        <div class="">
+                                            <h1 class="page-header-ui-title fw-bolder black">SEO optimised, AI generated domains</h1>
+                                            <p>Your domain is your online identity. Let AI help you define one that works.</p>
+                                        </div>
+
+                                        <div class="row gx-5 mt-3">
+                                            <div class="">
+                                                <form class="row row-cols-1 row-cols-md-auto g-3" action="{% url 'DomainSearch' %}">
+                                                    <div class="col flex-grow-1">
+                                                        <input class="form-control  " id="domain" name="domain"  minlength="3" maxlength="63" type="text" placeholder="e.g. rentacar.ph" required/>
+                                                    </div>
+                                                    <div class="col"><input type="submit" class="btn btn-teal fw-500 home-search-btn home-search-btn-ss" value="Search"></div>
+                                                </form>
+
+                                            </div>
+                                        </div>
+        
+                                        <div class="row gx-5 mt-3">
+                                            <div class="">
+                                                <br>
+                                                <h2 class="black">We'll compare prices from top providers</h2>
+                                            </div>
+
+
+                                            
+                                            <div class="row gx-5 text-center">
+                                                <div class="col-lg-4 mb-5 mb-lg-0">
+                                                    <img class="card-img-top img-fluid-50-sc" src="{% static 'search_engine/assets/img/GoDaddy-Black.png' %}" alt="..." />
+                                                </div>
+                                                <div class="col-lg-4 mb-5 mb-lg-0">
+                                                    <img class="card-img-top img-fluid-50-sc" src="{% static 'search_engine/assets/img/porkbun_logo.svg' %}" alt="..." />
+                                                </div>
+                                                <div class="col-lg-4 mb-5 mb-lg-0">
+                                                    <img class="card-img-top img-fluid-50-sc" src="{% static 'search_engine/assets/img/Google_Domains_logo.png' %}" alt="..." />
+                                                </div>
+                                            </div>
+
+
+
+                                        </div>
+
+
+                                    </div>
+
+                                    <div class="col-lg-6 highlight-box mb-3">
+                                        <div class="badge badge-marketing rounded-pill bg-secondary-soft text-secondary mb-3">Beta</div>
+                                        <h1 class="page-header-ui-title">Or try our Domain Assistant</h1>
+                                        <p class="page-header-ui-text mb-3">Describe your idea and we'll generate some domain names with great SEO scores. </p>
+                                        <a class="btn btn-teal fw-500 me-2" href="{% url 'home' %}">
+                                            Try the Beta
+                                            <i class="ms-2" data-feather="arrow-right"></i>
+                                        </a>
+
+                                    </div>
+
+                                    
+                                
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </header>
+
+                    <section class="bg-white py-10">
+                        <div class="container px-5">
+                            <div class="row gx-5 align-items-center justify-content-center">
+                                <div class="col-lg-7 order-1 order-lg-0">
+                                    <div class="mb-4">
+                                        <h1 class="page-header-ui-title fw-bolder black mb-1">Our signature SEO scoring</h1>
+                                        <p class="lead">We score domain names to ensure we generate some which will perform well on search engines. Among the many factors we consider:</p>
+                                    </div>
+                                    <div class="row gx-5">
+                                        <div class="col-md-4 mb-3 text-center">
+                                            <h2 class="fw-bolder mb-3 mt-2">.com</h2>
+                                            <h6 class="fw-bolder">Top-level domain</h6>
+                                            <p class="mb-2 small">Whether you use .com or another extension matters a lot</p>
+                                        </div>
+                                        <div class="col-md-4 mb-3 text-center">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="black" class="bi bi-paragraph" viewBox="0 0 16 16">
+                                                <path d="M10.5 15a.5.5 0 0 1-.5-.5V2H9v12.5a.5.5 0 0 1-1 0V9H7a4 4 0 1 1 0-8h5.5a.5.5 0 0 1 0 1H11v12.5a.5.5 0 0 1-.5.5z"/>
+                                              </svg>
+                                            <h6 class="fw-bolder mt-2">Length & Characters</h6>
+                                            <p class="mb-2 small mb-0">Shorter domains based on real words generally do better on search engines</p>
+                                        </div>
+                                        <div class="col-md-4 mb-4 text-center">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="black" class="bi bi-link-45deg" viewBox="0 0 16 16">
+                                                <path d="M4.715 6.542 3.343 7.914a3 3 0 1 0 4.243 4.243l1.828-1.829A3 3 0 0 0 8.586 5.5L8 6.086a1.002 1.002 0 0 0-.154.199 2 2 0 0 1 .861 3.337L6.88 11.45a2 2 0 1 1-2.83-2.83l.793-.792a4.018 4.018 0 0 1-.128-1.287z"/>
+                                                <path d="M6.586 4.672A3 3 0 0 0 7.414 9.5l.775-.776a2 2 0 0 1-.896-3.346L9.12 3.55a2 2 0 1 1 2.83 2.83l-.793.792c.112.42.155.855.128 1.287l1.372-1.372a3 3 0 1 0-4.243-4.243L6.586 4.672z"/>
+                                            </svg>
+                                            <h6 class="fw-bolder mt-2">Backlinks</h6>
+                                            <p class="mb-2 small">If lots of links on the internet already point to a domain, it'll rank hire on search engines</p>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                <div class="col-md-9 col-lg-5 order-0 order-lg-1 mb-4" data-aos="slide-left">
+                                    <div class="mb-4">
+                                        <div class="content-skewed content-skewed-left"><img class="img-fluid content-skewed-item shadow-lg rounded-3" src="{% static 'search_engine/assets/img/SearchZoom.png' %}" /></div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </section>
+
+
+
+
+                    <section class="bg-light py-10">
+                        <div class="container px-5">
+                            <div class="row gx-5 align-items-center justify-content-center">
+                                <div class="col-md-9 col-lg-6 order-0 mb-5 order-lg-0" data-aos="fade-right">
+                                    <div class="content-skewed content-skewed-right mb-2"><img class="content-skewed-item img-fluid shadow-lg rounded-3" src="{% static 'search_engine/assets/img/DomainsGPT.png' %}" /></div>
+                                </div>
+                                <div class="col-lg-6 order-1 order-lg-1 mb-lg-0" data-aos="fade-left">
+                                    <div class="mb-1">
+                                        <div class="badge badge-marketing rounded-pill bg-secondary-soft text-secondary mb-2">Beta</div>
+                                        <h1 class="page-header-ui-title fw-bolder black mb-2">Try our Domain Assistant</h1>
+                                        <p class="lead">Describe your idea and choose settings like extension and length of name, and we'll generate SEO-optimised suggestions for you.</p>
+                                        <a class="btn btn-teal fw-500 me-2 mt-2" href="{% url 'home' %}">
+                                            Try the Beta
+                                            <i class="ms-2" data-feather="arrow-right"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    
+            <div id="layoutDefault_footer">
+                <footer class="footer pt-4 pb-4 mt-auto bg-light footer-light">
+                    <div class="container px-5">
+                        <div class="row gx-5 align-items-center">
+                            <div class="col-md-6 small">Copyright &copy; DomainsGPT 2023</div>
+                            <div class="col-md-6 text-md-end small">
+                                <a href="#!">Privacy Policy</a>
+                                &middot;
+                                <a href="#!">Terms &amp; Conditions</a>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        <script src="{% static 'search_engine/js/scripts.js' %}"></script>
+        <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+        <script>
+            AOS.init({
+                disable: 'mobile',
+                duration: 600,
+                once: true,
+            });
+        </script>
+    </body>
+</html>

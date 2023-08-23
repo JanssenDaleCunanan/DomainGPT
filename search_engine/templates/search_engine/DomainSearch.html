@@ -1,0 +1,313 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="{% static 'search_engine/css/styles.css' %}" rel="stylesheet" />
+        <link rel="stylesheet" href="{% static 'search_engine/css/styles.css' %}" />
+        <link rel="icon" type="image/x-icon" href="assets/img/favicon.png" />
+        <script data-search-pseudo-elements defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js" crossorigin="anonymous"></script>
+        <title>TRIAL ASYNC</title>
+
+
+        <script>
+        
+          var domain = JSON.parse("{{domain|escapejs}}")
+          let returnedDomains;
+          let returnedDomainsArray;
+
+
+          async function suggestions() {
+            const response = await fetch('/suggestions?domain='+domain, {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+              }
+            });
+
+            console.log (`THIS IS THE response: ${response}`)
+            returnedDomainsArray = await response.json();
+            console.log (`THIS IS THE returnedDomainsArray: ${returnedDomainsArray}`)
+            console.log (typeof returnedDomainsArray)
+            console.log (returnedDomainsArray.length)
+            console.log (`THIS IS FROM SUGGESTIONS ${returnedDomainsArray[0]}`)
+            //document.getElementById("sampleList").innerHTML = returnedDomainsArray;
+
+
+            getAvailability()
+            };
+          
+
+
+
+
+          
+          async function availability(data) {
+
+            await fetch('/availability/?domain='+data, {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+              }
+            })
+            .then(response => response.json())
+            .then(response => {
+              const availabilityList = response
+              console.log (`THIS IS THE RETURNED AVAILABILITY DATA: ${availabilityList}`)
+              console.log (`THIS IS THE RETURNED AVAILABILITY PRICE: ${availabilityList.score}`)
+              console.log (`THIS IS THE RETURNED AVAILABILITY PRICE: ${typeof availabilityList.score}`)
+
+
+              if (typeof availabilityList.score === "undefined" ||
+                  typeof availabilityList.price === "undefined" ||
+                  typeof availabilityList.porkbun_price === "undefined" ||
+                  typeof availabilityList.google_price === "undefined") {
+                availabilityList.score = "-";
+                availabilityList.price = "-";
+                availabilityList.porkbun_price = "-";
+                availabilityList.google_price = "-";
+              }
+
+              
+
+              const newDiv = document.createElement('div');
+              newDiv.className = 'row';
+
+              
+              newDiv.innerHTML = `
+                <div class="col-4 my-3">${availabilityList.domain}</div>
+
+
+                <div class="col-2 text-center spinner">
+                  <div class="spinner-border" role="status" >
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                </div>
+                
+
+                <div class="col-2 text-center domainData my-3" style="display: none" >${availabilityList.score}</div>
+
+                <div class="col-2 text-center spinner">
+                  <div class="spinner-border" role="status" >
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                </div>
+
+                <div class="col-2 text-center domainData" style="display: none" >
+                  <a class="btn" href="https://www.godaddy.com/en-uk/domainsearch/find?checkAvail=1&domainToCheck=${availabilityList.domain}">
+                    ${availabilityList.price}
+                  </a>
+                </div>
+
+                <div class="col-2 text-center spinner">
+                  <div class="spinner-border" role="status" >
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                </div>
+
+                <div class="col-2 text-center domainData" style="display: none" >
+                  <a class="btn" href="https://porkbun.com/checkout/search?prb=d41b158dc5&q=${availabilityList.domain}">
+                    ${availabilityList.porkbun_price}
+                  </a>
+                </div>
+
+                <div  class="col-2 text-center spinner">
+                  <div class="spinner-border" role="status" >
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                </div>
+               
+
+                <div class="col-2 text-center domainData" style="display: none" >
+                  <a class="btn" href="https://domains.google.com/registrar/search?searchTerm=${availabilityList.domain}">
+                    ${availabilityList.google_price}
+                  </a>
+                </div>
+              `;
+
+              
+              
+              
+              const existingDiv = document.querySelector('.existingDiv');
+              existingDiv.insertAdjacentElement('afterend', newDiv);
+
+             
+              //SPINNER CONTROL
+
+              const spinnerElements = document.querySelectorAll(".spinner");
+              const domainDataElements = document.querySelectorAll(".domainData");
+
+              spinnerElements.forEach(spinner => {
+                spinner.style.display = "block"; // Show the spinner
+              });
+              
+              domainDataElements.forEach(domainData => {
+                domainData.style.display = "none"; // Hide the domain data
+              });
+              
+              // Simulate a 1-second delay
+              setTimeout(function() {
+                spinnerElements.forEach(spinner => {
+                  spinner.style.display = "none"; // Hide the spinner
+                });
+              
+                domainDataElements.forEach(domainData => {
+                  domainData.style.display = "block"; // Show the domain data
+                });
+              }, 1000);
+
+            });
+          }
+
+          
+
+
+      
+
+
+          async function getAvailability() {
+            console.log (`THIS IS FROM getAVAILABILITY ${returnedDomainsArray[0]}`)
+
+            if (!returnedDomainsArray || returnedDomainsArray.length === 0) {
+              console.log("No returned domains data available.");
+              return;
+            }
+
+            for (let i = 0; i < returnedDomainsArray.length; i++) {
+              console.log(returnedDomainsArray[i])
+              let output = availability(returnedDomainsArray[i])
+            };    
+
+          }
+         
+       </script>
+
+
+    </head>
+
+    <body class="bg-light">
+    
+        <div class="page-header-ui-content bg-white py-4 position-relative">
+          <div class="container px-4">
+              <div class="row gx-5 justify-content-center mt-1">
+                  <div class=" text-center">
+      
+                      <form class="row row-cols-1 row-cols-md-auto g-3" action="">
+                          <div class="col flex-grow-1">
+                              <input class="form-control border-05" id="domain" name="domain"  minlength="3" maxlength="63" type="text" placeholder="e.g. rentacar.ph" required/>
+                          </div>
+                          <div class="col"><input type="submit" class="btn btn-teal fw-500 home-search-btn-border home-search-btn-border-ss" value="Search"></div>
+                      </form>
+                  </div>
+              </div>
+      
+          <div class="container px-3">
+              <div class="row bg-lightgrey mt-4 px-3 py-2">
+                  <div class="col">
+                      <h3 class="fw-bolder mt-2">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="grey" style="margin-right: 10px" class="bi bi-dash-circle-fill" viewBox="0 0 16 16">
+                              <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.5 7.5a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1h-7z"/>
+                            </svg>
+                          {{ domain }} is not available
+                      </h3>
+                  </div>
+               </div>
+          </div>
+        </div>
+      
+      
+        <div class="bg-white py-4 position-relative">
+          <div class="container px-4">
+      
+              <h3>Our AI-generated suggestions</h3>
+              <div class="container px-3">
+                  <div class="row bg-lightgrey mt-2 px-3 py-3 mb-3">
+                      <div class="col align-items-center">
+                          <b class="black">FYI</b> the domains below were whipped up by openai. If they don't float your boat, hit the <b style="color: #00ba94;">search</b> button again.
+                      </div>
+                   </div>
+              </div>
+      
+      
+              <!-- On desktop -->
+              <div class="container px-3 domain-list-bs">
+                  <div class="row align-items-center mb-2">
+                    <div class="col-4"> </div>
+                    <div class="col-2 text-center"><b class="black">SEO score</b></div>
+                    <div class="col-2 text-center">
+                      <img class="align-items-center title-logo" src="{% static 'search_engine/assets/img/GoDaddy-Black.png' %}">
+                    </div>
+                    <div class="col-2 text-center">
+                      <img class="align-items-center title-logo" src="{% static 'search_engine/assets/img/porkbun_logo.svg' %}">
+                    </div>
+                    <div class="col-2 text-center">
+                      <img class="align-items-center title-logo" src="{% static 'search_engine/assets/img/Google_Domains_logo.png' %}">
+                    </div>
+                  </div>
+      
+                  
+                  
+        
+                  <script>suggestions()</script>
+                   <p id="sampleList"></p>  
+                  <div class="existingDiv">
+                    <script>getAvailability()</script>
+                  </div>
+
+                  <script>
+
+                    
+                  </script>
+                 
+      
+              </div>
+      
+      
+              <!-- On mobile -->
+              {% for suggestion in suggestions %}
+              <div class="container px-3 mt-3 domain-list-ss">
+                  <div class="row justify-content-center">
+                      <div class="col-sm col-md-auto border-05">
+                          <h5 class="py-2 text-center black card-title-bg-grey">{{ suggestion.domain }}</h5>
+                          <div class="text-center mt-1 mb-2">
+                              <b class="black">SEO score</b>
+                              {{ suggestion.score }}
+                          </div>
+                          <div class="text-center mt-n0">
+                              <img class="align-items-center title-logo" src="{% static 'search_engine/assets/img/GoDaddy-Black.png' %}">
+                              <a class="btn " href="https://www.godaddy.com/en-uk/domainsearch/find?checkAvail=1&domainToCheck={{suggestion.domain}}">{{ suggestion.price }}</a>
+                          </div>
+                          <div class="text-center mt-n0">
+                              <img class="align-items-center title-logo" src="{% static 'search_engine/assets/img/porkbun_logo.svg' %}">
+                              <a class="btn " href="https://porkbun.com/checkout/search?prb=d41b158dc5&q={{suggestion.domain}}">{{ suggestion.porkbun_price }}</a>
+                          </div>
+                          <div class="text-center mt-n0 mb-1">
+                              <img class="align-items-center title-logo" src="{% static 'search_engine/assets/img/Google_Domains_logo.png' %}">
+                              <a class="btn " href="https://domains.google.com/registrar/search?searchTerm={{suggestion.domain}}">{{ suggestion.google_price }}</a>
+                          </div>
+                      </div>
+      
+                  </div>
+              </div>
+      
+              {% endfor %}
+      
+          </div>
+        </div>
+
+    
+
+        
+
+
+        
+      
+      
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        <script src="{% static 'search_engine/js/scripts.js' %}"></script>  
+    </body>
+</html>
